@@ -1,0 +1,21 @@
+(define-public (mint-nft)
+  (let (
+        ; Kutsu earlycrows-bonding-curve -sopimusta ja hae minttaushinta
+        (mint-price (contract-call? 
+                      'SP2J6Y09JMFWWZCT4VJX0BA5W7A9HZP5EX96Y6VZY.earlycrows-bonding-curve 
+                      get-price
+                    ))
+    )
+    (begin
+      ; Varmista, että käyttäjällä on riittävästi saldoa NFT:n ostoon
+      (if (>= (ft-get-balance tx-sender .STX) mint-price)
+          (begin
+            ; Minttaa NFT täällä (lisää tarvittavat toimenpiteet)
+            (print "NFT mintattu onnistuneesti")
+            (ok true)
+          )
+          (err u100) ; Virhe, jos käyttäjällä ei ole riittävästi saldoa
+      )
+    )
+  )
+)
